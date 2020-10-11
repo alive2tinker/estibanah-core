@@ -21,6 +21,7 @@ class CreateQuestionsTable extends Migration
             $table->uuid('form_id');
             $table->foreign('form_id')->references('id')->on('forms')->onDelete('cascade');
             $table->boolean('required')->default(0);
+            $table->text("conditions")->nullable();
             $table->timestamps();
         });
     }

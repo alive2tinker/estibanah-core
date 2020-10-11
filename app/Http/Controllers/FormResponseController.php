@@ -52,45 +52,46 @@ class FormResponseController extends Controller
             'user_id' => Auth::user()->id
         ]);
 
-        $answers = $request->input('questions');
-        foreach($form->questions as $index => $question)
+        foreach($request->input('responses') as $response)
         {
             try{
-
-                if($question->type === 'file')
+                if($response['question']['type'] === 'file')
                 {
-                    $uploadedFile = $request->file('questions.' . ($index+1) . '.answer');
-                    $uploadName = "form_response_". $formResponse->id . "_question_" . $question->id . "_upload."
-                    .$uploadedFile->getClientOriginalExtension();
-                    $path = Storage::put($uploadName, $uploadedFile);
+                    foreach($response['value'] as $filename)
+                    {
+                        foreach($request->allFiles() as $file){
+                            if($file[0]->getClientOriginalName() === $filename){
+                                $uploadName = "response-" . $formResponse->id . "-files";
+                                $path = Storage::putFileAs($uploadName, $file[0], "q-"
+                                    . $response['question']['id'] . "-file." . $file[0]->getClientOriginalExtension());
 
-                    $upload = $formResponse->uploads()->create([
-                        'link' => $path,
-                        'name' => $uploadedFile->getClientOriginalName(),
-                        'type' => $uploadedFile->getClientMimeType()
-                    ]);
-                    $question->responses()->create([
+                                $upload = $formResponse->uploads()->create([
+                                    'link' => $path,
+                                    'name' => $file[0]->getClientOriginalName(),
+                                    'type' => $file[0]->getClientMimeType()
+                                ]);
+                                Response::create([
+                                    'question_id' => $response['question']['id'],
+                                    'form_response_id' => $formResponse->id,
+                                    'value' => $upload->name
+                                ]);
+                            }
+                        }
+                    }
+                }else if($response['question']['type'] !== 'file'){
+                    Response::create([
+                        'question_id' => $response['question']['id'],
                         'form_response_id' => $formResponse->id,
-                        'value' => $upload->link
-                    ]);
-                }else{
-                    $question->responses()->create([
-                        'form_response_id' => $formResponse->id,
-                        'value' => $question->type === 'checkbox' ? implode(",", $answers[$index+1]['answer'])
-                            : $answers[$index+1]['answer']
+                        'value' => $response['question']['type'] === 'checkbox' ? implode(",", $response['value'])
+                            : $response['value']
                     ]);
                 }
-            }catch(\Exception $e){
-                dd([
-                    'question' => $question,
-                    'error' => $e->getMessage(),
-                    'answer' => $answers[$index]['answer'],
-                    'index' => $index,
-
-                ]);
+            }catch (\Exception $e){
+                return response()->json(['message' => $e->getMessage(), 'line' => $e->getLine()]);
             }
         }
-        return redirect()->route('thankyou');
+
+        return \response()->json("created successfully", 201);
     }
 
     /**

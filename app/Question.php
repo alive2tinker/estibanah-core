@@ -11,7 +11,8 @@ class Question extends Model
         'type',
         'form_id',
         'description',
-        'required'
+        'required',
+        'conditions'
     ];
 
     public function form()

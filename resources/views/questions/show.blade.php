@@ -8,7 +8,11 @@
                         <h3 class="card-title">{{ $question->text }}</h3>
                         <p class="text-muted">{{ $question->description }}</p>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" checked="{{ $question->required }}" id="defaultCheck2" disabled>
+                            @if($question->required)
+                                <input class="form-check-input" type="checkbox" checked id="defaultCheck2" disabled>
+                            @else
+                                <input class="form-check-input" type="checkbox" id="defaultCheck2" disabled>
+                            @endif
                             <label class="form-check-label" for="defaultCheck2">
                                 required
                             </label>
@@ -36,7 +40,7 @@
                                     </ol>
                                 @break
                                 @case('file')
-                                    <a href="{{ $response->value }}">Download File</a>
+                                    <a href="{{ route('downloadFile', $response->value) }}">Download File</a>
                                 @break
                                 @case('long_answer')
                                     <p>{!! $response->value !!}</p>

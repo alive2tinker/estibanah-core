@@ -16,8 +16,10 @@ class MergeJSON
      */
     public function handle($request, Closure $next)
     {
-        $request->merge(['questions' => json_decode($request->input('questions'), true)]);
-        Log::info($request);
+        if($request->has('questions'))
+            $request->merge(['questions' => json_decode($request->input('questions'), true)]);
+        if($request->has('responses'))
+            $request->merge(['responses' => json_decode($request->input('responses'), true)]);
         return $next($request);
     }
 }

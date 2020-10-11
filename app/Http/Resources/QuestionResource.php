@@ -20,7 +20,8 @@ class QuestionResource extends JsonResource
             'type' => $this->type,
             'answers' => AnswerResource::collection($this->answers),
             'description' => $this->description,
-            'required' => $this->required
+            'required' => $this->required,
+            'conditions' => $this->conditions
         ];
     }
 }

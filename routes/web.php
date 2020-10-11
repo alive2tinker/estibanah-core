@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/downloadfile/{filename}','UploadController@download')->name('downloadFile');
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -21,14 +23,16 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/downloadfile/{filename}','UploadController@download')->name('downloadFile');
+
 Route::get('/forms/resource/{form}', 'FormController@resource');
 
 Route::prefix('/forms')->group(function(){
     Route::get('/{form}/answer', 'FormResponseController@create');
     Route::view('/thanks','responses.thankyou')->name('thankyou');
-    Route::post('/{form}','FormResponseController@store')->name('response.store');
+    Route::post('/{form}','FormResponseController@store')->name('response.store')
+        ->middleware(\App\Http\Middleware\MergeJSON::class);
 });
+
 
 Route::resource('/forms','FormController')->middleware(\App\Http\Middleware\MergeJSON::class);
 Route::resource('/questions','QuestionController');

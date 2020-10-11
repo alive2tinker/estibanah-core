@@ -57,6 +57,7 @@ class FormController extends Controller
                 'description' => $nuQuestion['description'],
                 'required' => $nuQuestion['required'],
                 'type' => $nuQuestion['type'],
+                'conditions' => $this->generateIfStatement($nuQuestion['conditions'])
             ]);
 
             if($question->type === 'checkbox' || $question->type === 'multiple_choice'){
@@ -165,5 +166,38 @@ class FormController extends Controller
     public function resource(Form $form)
     {
         return new FormResource($form);
+    }
+
+    public function generateIfStatement($conditions)
+    {
+        Log::info($conditions);
+        $conditionalStatement = "";
+
+        foreach($conditions as $index => $condition)
+        {
+            switch ($condition['operation']){
+                case "notEmpty" :
+                    $newCondition = $index === 0 ? "this.isNotEmpty('" . $condition['question']. "')"
+                    : " && this.isNotEmpty('" . $condition['question'] . "')";
+                    $conditionalStatement = $conditionalStatement . $newCondition;
+                    break;
+                case "answerEquals":
+                    $newCondition = $index === 0 ? "this.answerEquals('" . $condition['question'] . "',"
+                        . "'" . $condition['question']['value'] . "')"
+                        : " && this.answerEquals(" . $condition['question'] . ","
+                        . "'" . $condition['question']['value'] . "')";
+                    $conditionalStatement = $conditionalStatement . $newCondition;
+                    break;
+                case "!answerEquals":
+                    $newCondition = $index === 0 ? "this.doesNotAnswerEquals('" . $condition['question'] . "',"
+                        . "'" . $condition['question']['value'] . "')"
+                        : " && this.doesNotAnswerEquals(" . $condition['question'] . ","
+                        . "'" . $condition['question']['value'] . "')";
+                    $conditionalStatement = $conditionalStatement . $newCondition;
+                    break;
+            }
+
+            return $conditionalStatement;
+        }
     }
 }

@@ -86,7 +86,8 @@ class UploadController extends Controller
 
     public function download($filename)
     {
-        dd($filename);
-        return response()->download(Storage::get($filename));
+        $upload = Upload::where('name', $filename)->first();
+
+        return Storage::download($upload->link);
     }
 }

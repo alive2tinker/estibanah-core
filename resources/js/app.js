@@ -9,11 +9,17 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 import VueSweetalert2 from 'vue-sweetalert2';
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 
 // If you don't need the styles, do not connect
 import 'sweetalert2/dist/sweetalert2.min.css';
 
 Vue.use(VueSweetalert2);
+Vue.use(BootstrapVue);
+Vue.use(IconsPlugin);
+
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 /**
  * The following block of code may be used to automatically register your
@@ -29,6 +35,7 @@ Vue.use(VueSweetalert2);
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('form-component', require('./components/FormComponent.vue').default);
 Vue.component('edit-form-component', require('./components/EditFormComponent.vue').default);
+Vue.component('form-response-component', require('./components/FormResponseComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
