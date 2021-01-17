@@ -43,7 +43,7 @@
                         </div>
                         <div v-if="question.type === 'checkbox' || question.type === 'multiple_choice'" class="my-2">
                             <div class="input-group mb-3" v-for="(answer, index) in question.answers">
-                                <input type="text" class="form-control" v-model="answer.title" placeholder="answer" aria-describedby="button-addon2">
+                                <input type="text" class="form-control" v-model="answer.text" placeholder="answer" aria-describedby="button-addon2">
                                 <div class="input-group-append">
                                     <button class="btn btn-outline-secondary" type="button" id="button-addon2"><i class="fa fa-trash" @click="deleteAnswer(question, index)"></i></button>
                                 </div>
@@ -193,7 +193,7 @@ export default {
                 this.questions.splice(index, 1);
         },
         addAnswer: function(question){
-            question.answers.push({title: ''});
+            question.answers.push({text: ''});
         },
         deleteAnswer: function(question, index){
             if(question.answers.length > 1)
