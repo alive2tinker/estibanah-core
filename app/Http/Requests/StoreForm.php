@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 
 class StoreForm extends FormRequest
 {
@@ -23,6 +24,7 @@ class StoreForm extends FormRequest
      */
     public function rules()
     {
+        Log::info($this);
         return [
             'title' => "required",
             'description' => "required",
