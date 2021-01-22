@@ -330,7 +330,6 @@ export default {
 
                 axios.post('/forms', formData).then((repsonse) => {
                     this.isLoading = false;
-                    this.$swal.fire('Great!', "Form created successfully! redirecting you shortly", 'success');
                     this.$swal.fire({
                         title: "Great!",
                         text: "Form created successfully! redirecting you shortly",
