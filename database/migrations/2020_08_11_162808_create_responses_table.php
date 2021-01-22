@@ -19,7 +19,7 @@ class CreateResponsesTable extends Migration
             $table->unsignedBigInteger('question_id');
             $table->foreign('question_id')->references('id')->on('questions');
             $table->unsignedBigInteger('form_response_id');
-            $table->foreign('form_response_id')->references('id')->on('form_responses');
+            $table->foreign('form_response_id')->references('id')->on('form_responses')->onDelete('cascade');
             $table->timestamps();
         });
     }
