@@ -78,6 +78,16 @@
             @endforeach
         @endif
         <main class="py-4">
+            <div class="container">
+                @if(\Illuminate\Support\Facades\Session::has('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert" >
+                        <strong>Great!</strong> {{ \Illuminate\Support\Facades\Session::get("success") }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
+            </div>
             @yield('content')
         </main>
     </div>

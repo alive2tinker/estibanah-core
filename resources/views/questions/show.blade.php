@@ -35,7 +35,7 @@
                                 @endphp
                                     <ol>
                                         @foreach($checkboxes as $checkbox)
-                                            <li>{{ $checbox }}</li>
+                                            <li>{{ $checkbox }}</li>
                                         @endforeach
                                     </ol>
                                 @break

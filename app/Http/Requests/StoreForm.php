@@ -27,7 +27,6 @@ class StoreForm extends FormRequest
         Log::info($this);
         return [
             'title' => "required",
-            'description' => "required",
             'questions' => "required|array",
             'questions.*.text' => "required",
             'questions.*.type' => "required",
