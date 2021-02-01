@@ -2,8 +2,27 @@
 @section('content')
     <div class="container">
         <div class="border-bottom">
-            <h1>{{ $form->title }}</h1>
+            <div class="d-flex justify-content-between">
+                <h1>{{ $form->title }}</h1>
+                <button class="btn btn-link" data-toggle="modal" data-target="#invitation-modal"><i
+                        class="fa fa-share fa-3x"></i></button>
+            </div>
             <p class="text-muted">{{ $form->description }}</p>
+        </div>
+        <div class="modal" tabindex="-1" id="invitation-modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Invitation Modal</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <email-component link="{{ request()->url() . "/answer" }}"></email-component>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="list-group my-3">
             @forelse($form->questions as $question)
@@ -33,4 +52,23 @@
             @endforelse
         </div>
     </div>
+@endsection
+@section('js')
+    <script>
+        function copyText(){
+            var copyText = document.getElementById("form-answer-link");
+
+            /* Select the text field */
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+            /* Copy the text inside the text field */
+            document.execCommand("copy");
+        }
+        $(document).ready(function(){
+            $("#invitation-submit").click(function(){
+                $("#invitation-form").submit();
+            })
+        })
+    </script>
 @endsection
