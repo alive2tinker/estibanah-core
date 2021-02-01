@@ -27,6 +27,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/forms/resource/{form}', 'FormController@resource');
 Route::post('/send_invitations', 'EmailController@sendInvitations')->name('sendInvitations');
 
+Route::get('/search',SearchController::class)->name('search');
+
 Route::prefix('/forms')->group(function(){
     Route::get('/{form}/answer', 'FormResponseController@create');
     Route::view('/thanks','responses.thankyou')->name('thankyou');
