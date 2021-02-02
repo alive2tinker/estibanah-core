@@ -88,6 +88,6 @@ class UploadController extends Controller
     {
         $upload = Upload::where('name', $filename)->first();
 
-        return Storage::download($upload->link);
+        return Storage::disk('s3')->download($upload->link);
     }
 }
