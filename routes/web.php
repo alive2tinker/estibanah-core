@@ -29,6 +29,8 @@ Route::post('/send_invitations', 'EmailController@sendInvitations')->name('sendI
 
 Route::get('/search',SearchController::class)->name('search');
 
+Route::view('settings','settings')->name('settings');
+
 Route::prefix('/forms')->group(function(){
     Route::get('/{form}/answer', 'FormResponseController@create');
     Route::view('/thanks','responses.thankyou')->name('thankyou');
