@@ -61,9 +61,8 @@ class FormResponseController extends Controller
                     {
                         foreach($request->allFiles() as $file){
                             if($file[0]->getClientOriginalName() === $filename){
-                                $uploadName = "response-" . $formResponse->id . "-files";
-                                $path = Storage::putFileAs($uploadName, $file[0], "q-"
-                                    . $response['question']['id'] . "-file." . $file[0]->getClientOriginalExtension());
+                                $uploadName = "file_responses/";
+                                $path = Storage::disk('s3')->put($uploadName, $file[0]);
 
                                 $upload = $formResponse->uploads()->create([
                                     'link' => $path,
