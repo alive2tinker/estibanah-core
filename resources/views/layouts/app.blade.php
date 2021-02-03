@@ -34,10 +34,13 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        <form class="form-inline" method="GET" action="{{ route('search') }}">
-                            <input class="form-control mr-sm-2" name="key" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                        </form>
+                        @if(Auth::check())
+                            <form class="form-inline" method="GET" action="{{ route('search') }}">
+                                <input class="form-control mr-sm-2" name="key" type="search" placeholder="Search" aria-label="Search">
+                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                            </form>
+
+                        @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->

@@ -20,7 +20,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <h3 class="card-title">{{ response.question.text }}</h3>
+                    <h3 :class="{'card-title':true, 'required': isRequired(response.question)}">{{ response.question.text }}</h3>
                     <input type="text" class="form-control" v-show="response.question.type === 'short_answer'" v-model="response.value">
                     <input type="date" class="form-control" v-show="response.question.type === 'date'" v-model="response.value">
                     <input type="file" class="form-control" v-show="response.question.type === 'file'" ref="file" multiple @change="pushFiles($event, response)">
@@ -109,7 +109,7 @@ export default {
             var res = true;
 
             this.responses.forEach((response, index) => {
-                if(response.question.required && (response.value === '' || response.value === [])){
+                if(response.question.required && (response.value === '' || response.value === [] || (response.question.type === 'file' && this.files.length === 0))){
                     window.scrollTo(0,0);
                     this.errors.push({key:index, message: `${response.question.text} is required`});
                     res = res && false;
@@ -154,6 +154,9 @@ export default {
             });
             return res;
         },
+        isRequired: function(question){
+            return question.required;
+        }
     }
 }
 </script>
@@ -206,5 +209,9 @@ export default {
     }
     .hasError > div.body > input{
         border: 1px solid red;
+    }
+    .required:after{
+        content: ' * ';
+        color: red;
     }
 </style>
