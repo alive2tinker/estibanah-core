@@ -13,11 +13,6 @@ use Illuminate\Support\Facades\Storage;
 
 class FormResponseController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth', ['except' => ['create']]);
-    }
-
     /**
      * Display a listing of the resource.
      *
