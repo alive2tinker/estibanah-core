@@ -18,9 +18,9 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="form-group"><label for="form-title">Title</label><input v-model="title" class="form-control" id="form-title"
+                    <div class="form-group"><label for="form-title">{{ $t('Title')}}</label><input v-model="title" class="form-control" id="form-title"
                                                                                         type="text"></div>
-                    <div class="form-group"><label for="form-description">Description</label><textarea class="form-control"
+                    <div class="form-group"><label for="form-description">{{ $t('Description')}}</label><textarea class="form-control"
                                                                                                        v-model="description"
                                                                                                        cols="30"
                                                                                                        id="form-description" name=""
@@ -39,17 +39,17 @@
                                 </button>
                             </div>
                             <div class="d-flex justify-content-between">
-                                <h4 class="card-title">Question {{ index + 1}}
+                                <h4 class="card-title"> {{ `${$t('Question')} ${index + 1}`}}
                                     <small class="badge badge-secondary"><i :class="getIcon(question.type)"></i></small>
                                 </h4>
                                 <i class="fa fa-trash" @click="deleteQuestion(index)"></i>
                             </div>
                             <div class="form-group row">
                                 <div class="col-md-12">
-                                    <label :for="`question-${index}-text`">Text</label>
+                                    <label :for="`question-${index}-text`">{{ $t('Question Text') }}</label>
                                     <div class="form-group"><input v-model="question.text" class="form-control" :id="`question-${index}-text`" type="text"></div>
                                     <div class="form-group">
-                                        <label>Description</label>
+                                        <label>{{ $t('Description')}}</label>
                                         <textarea v-model="question.description" cols="30" rows="3" class="form-control"></textarea>
                                     </div>
                                 </div>
@@ -61,7 +61,7 @@
                                         <button class="btn btn-outline-secondary" type="button" id="button-addon2"><i class="fa fa-trash" @click="deleteAnswer(question, index)"></i></button>
                                     </div>
                                 </div>
-                                <button class="btn btn-link" @click="addAnswer(question)">Add Answer</button>
+                                <button class="btn btn-link" @click="addAnswer(question)">{{ $t('Add Answer')}}</button>
                             </div>
                         </div>
                         <div class="card-footer">
@@ -70,16 +70,16 @@
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" :checked="question.required" v-model="question.required" :id="`question-${index}-requirement`">
                                         <label class="form-check-label" :for="`question-${index}-requirement`">
-                                            required?
+                                            {{ $t('Required?')}}
                                         </label>
                                     </div></li>
                                 <li class="d-inline-block">
-                                    <b-button variant="link" v-show="index >= 1" @click="openConditionsModal(index)">conditions</b-button>
+                                    <b-button variant="link" v-show="index >= 1" @click="openConditionsModal(index)">{{ $t('conditions')}}</b-button>
 
                                     <b-modal size="lg" :id="`conditions-modal-q${index}`" title="Conditions Modal">
                                         <div class="input-group" v-for="condition in question.conditions">
                                             <div class="input-group-prepend">
-                                                <span class="input-group-text">question</span>
+                                                <span class="input-group-text">{{ $t('Question')}}</span>
                                             </div>
                                             <select v-model="condition.question" class="form-control">
                                                 <option v-for="question in availableQuestions" v-if="question !== condition.question"
@@ -89,16 +89,16 @@
                                                 <span class="input-group-text">condition</span>
                                             </div>
                                             <select v-model="condition.operation" class="form-control">
-                                                <option value="notEmpty">Not Empty</option>
-                                                <option value="answerEquals">Answer Equals</option>
-                                                <option value="!answerEquals">Answer Does not Equal</option>
+                                                <option value="notEmpty">{{ $t('Not Empty')}}</option>
+                                                <option value="answerEquals">{{ $t('Answer Equals')}}</option>
+                                                <option value="!answerEquals">{{ $t('Answer Does not Equal')}}</option>
                                             </select>
                                             <div class="input-group-prepend" v-show="condition.operation === 'answerEquals' || condition.operation === '!answerEquals'">
-                                                <span class="input-group-text">value</span>
+                                                <span class="input-group-text">{{ $t('value')}}</span>
                                             </div>
                                             <input type="text" v-show="condition.operation === 'answerEquals' || condition.operation === '!answerEquals'" v-model="condition.value" class="form-control">
                                         </div>
-                                        <button class="btn btn-link" @click="addCondition(question, index)">add condition</button>
+                                        <button class="btn btn-link" @click="addCondition(question, index)">{{ $t('Add Condition')}}</button>
                                     </b-modal>
                                 </li>
                             </ul>
@@ -113,7 +113,7 @@
                                 class="btn btn-block btn-primary"
                                 data-toggle="tooltip"
                                 data-placement="top"
-                                title="add a short answer question"
+                                :title="$t('add a short answer question')"
                                 @click="addQuestion('short_answer')">
                                 <i class="fa fa-font"></i></button>
                             <button
@@ -121,7 +121,7 @@
                                 class="btn btn-block btn-primary"
                                 data-toggle="tooltip"
                                 data-placement="top"
-                                title="add a long answer question"
+                                :title="$t('add a long answer question')"
                                 @click="addQuestion('long_answer')">
                                 <i class="fa fa-align-justify"></i></button>
                             <button
@@ -129,7 +129,7 @@
                                 class="btn btn-block btn-primary"
                                 data-toggle="tooltip"
                                 data-placement="top"
-                                title="add a multiple choice question"
+                                :title="$t('add a multiple choice question')"
                                 @click="addQuestion('multiple_choice')">
                                 <i class="fa fa-list-ul"></i></button>
                             <button
@@ -137,7 +137,7 @@
                                 class="btn btn-block btn-primary"
                                 data-toggle="tooltip"
                                 data-placement="top"
-                                title="add a checkbox question"
+                                :title="$t('add a checkbox question')"
                                 @click="addQuestion('checkbox')">
                                 <i class="fa fa-check-circle-o"></i></button>
                             <button
@@ -145,7 +145,7 @@
                                 class="btn btn-block btn-primary"
                                 data-toggle="tooltip"
                                 data-placement="top"
-                                title="add a question with upload"
+                                :title="$t('add a question with upload')"
                                 @click="addQuestion('file')">
                                 <i class="fa fa-file-o"></i></button>
                             <button
@@ -153,7 +153,7 @@
                                 class="btn btn-block btn-primary"
                                 data-toggle="tooltip"
                                 data-placement="top"
-                                title="add a date question"
+                                :title="$t('add a date question')"
                                 @click="addQuestion('date')">
                                 <i class="fa fa-calendar"></i></button>
                         </div>
@@ -162,7 +162,7 @@
             </div>
             <div class="row mt-4 justify-content-center">
                 <div class="col-md-5">
-                    <button class="btn btn-primary btn-block" type="button" @click="submitForm">Submit</button>
+                    <button class="btn btn-primary btn-block" type="button" @click="submitForm">{{ $t('Submit')}}</button>
                 </div>
             </div>
         </div>
@@ -202,15 +202,23 @@ export default {
         validateInput: function(){
             var res = true;
             if(this.title === ''){
-                this.errors.push({key: 'title', message:"title cannot be empty"});
+                this.errors.push({key: 'title', message:this.$t("title cannot be empty")});
                 res = res && false;
             }
 
             if(this.questions.length > 0){
                 this.questions.forEach((q, index) => {
                     if(q.text === ''){
-                        this.errors.push({key: index, message: "title cannot be empty for "+(index+1)});
+                        this.errors.push({key: index, message: this.$t("title cannot be empty for question", {questionIndex: index+1})});
                         res = res && false;
+                    }
+                    if(q.type === 'multiple_choice' || q.type === 'checkbox'){
+                        q.answers.forEach((answer, index) => {
+                            if(answer.text === ''){
+                                this.errors.push({key:index, message:this.$t(`value cannot be empty for potential answer ${index}`)})
+                                res = res && false;
+                            }
+                        })
                     }
                 })
             }
@@ -244,7 +252,7 @@ export default {
             if(this.questions.length > 1)
                 this.questions.splice(index, 1);
             else
-                this.errors.push({key: index, message:"cannot delete the only question"})
+                this.errors.push({key: index, message:this.$t("cannot delete the only question")})
         },
         addAnswer: function(question){
             question.answers.push({text: ''});
@@ -253,7 +261,7 @@ export default {
             if(question.answers.length > 1)
                 question.answers.splice(index, 1);
             else
-                this.errors.push({key: index, message:"cannot delete the only answer"})
+                this.errors.push({key: index, message:this.$t("cannot delete the only answer")})
         },
         openConditionsModal: function(index){
             this.$bvModal.show(`conditions-modal-q${index}`);
@@ -264,7 +272,7 @@ export default {
                 question.conditions.push({question: null, operation: null, value: null})
             }else{
                 //this.$bvModal.hide(`conditions-modal-q${index}`);
-                this.$swal.fire('Error', "there are no more questions to add conditions for", 'error');
+                this.$swal.fire('Error',this.$t("there are no more questions to add conditions for"), 'error');
             }
         },
         canAddCondition: function(question)
@@ -332,7 +340,7 @@ export default {
                     this.isLoading = false;
                     this.$swal.fire({
                         title: "Great!",
-                        text: "Form created successfully! redirecting you shortly",
+                        text: this.$t("Form created successfully! redirecting you shortly"),
                         icon: "success"
                     }).then((result) => {
                         if(result.isConfirmed)

@@ -7,19 +7,19 @@
                 <button class="btn btn-link" data-toggle="modal" data-target="#invitation-modal"><i
                         class="fa fa-share fa-3x"></i></button>
             </div>
-            <p class="text-muted">{{ $form->description }}</p>
+            <p class="text-muted">{{ $form->description ? $form->description : "No Description"}}</p>
         </div>
         <div class="modal" tabindex="-1" id="invitation-modal">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Invitation Modal</h5>
+                        <h5 class="modal-title">{{ __('Invitations') }}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <email-component link="{{ request()->url() . "/answer" }}"></email-component>
+                        <email-component link="{{ request()->url() . "/answer" }}" title="{{$form->title}}"></email-component>
                     </div>
                 </div>
             </div>
@@ -47,7 +47,7 @@
             </div>
             @empty
             <div class="list-group-item">
-                <h4 class="text-center">No Data</h4>
+                <h4 class="text-center">{{ __('No Data') }}</h4>
             </div>
             @endforelse
         </div>

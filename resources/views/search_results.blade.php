@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="d-flex justify-content-between border-bottom">
-            <h1>Search Results</h1>
+            <h1>{{ __('Search Results') }}</h1>
         </div>
         <div class="list-group">
             @forelse($forms as $form)
@@ -22,7 +22,7 @@
                 </div>
             @empty
                 <div class="list-group-item">
-                    <h4 class="text-center">No Data</h4>
+                    <h4 class="text-center">{{ __('No Data') }}</h4>
                 </div>
             @endforelse
         </div>

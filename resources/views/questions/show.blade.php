@@ -14,7 +14,7 @@
                                 <input class="form-check-input" type="checkbox" id="defaultCheck2" disabled>
                             @endif
                             <label class="form-check-label" for="defaultCheck2">
-                                required
+                                {{__('Required?')}}
                             </label>
                         </div>
                     </div>
@@ -25,7 +25,7 @@
                         <h3 class="mr-3">{{ $index + 1}}</h3>
                         <div class="media-body card card-body">
                             <div class="d-flex justify-content-between">
-                                <h5 class="mt-0 mb-1">{{ $response->formResponse->user->name }}</h5>
+                                <h5 class="mt-0 mb-1">{{ $response->formResponse->user ?  $response->formResponse->user->name : __('Anonymous User') }}</h5>
                                 {{ $response->created_at->format('m-d-y') }}
                             </div>
                             @switch($question->type)

@@ -16,11 +16,19 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 
 Vue.use(VueSweetalert2);
 Vue.use(BootstrapVue);
-Vue.use(IconsPlugin);
 
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
+import VueInternationalization from 'vue-i18n';
+import Locale from './vue-i18n-locales.generated';
 
+Vue.use(VueInternationalization);
+
+const lang = document.documentElement.lang.substr(0, 2);
+// or however you determine your current app locale
+
+const i18n = new VueInternationalization({
+    locale: lang,
+    messages: Locale
+});
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -45,5 +53,6 @@ Vue.component('email-component', require('./components/EmailComponent.vue').defa
  */
 
 const app = new Vue({
+    i18n,
     el: '#app',
 });

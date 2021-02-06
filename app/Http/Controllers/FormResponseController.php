@@ -13,11 +13,6 @@ use Illuminate\Support\Facades\Storage;
 
 class FormResponseController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth', ['except' => ['create']]);
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -49,7 +44,7 @@ class FormResponseController extends Controller
     public function store(StoreResponse $request, Form $form)
     {
         $formResponse = $form->formResponses()->create([
-            'user_id' => Auth::user()->id
+            'user_id' => Auth::id()
         ]);
 
         foreach($request->input('responses') as $response)

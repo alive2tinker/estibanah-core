@@ -41,7 +41,7 @@
             </div>
             <div class="row py-3 justify-content-center">
                 <div class="col-md-5">
-                    <button type="button" class="btn btn-primary btn-block btn-lg" @click="submitResponse($event)">Submit</button>
+                    <button type="button" class="btn btn-primary btn-block btn-lg" @click="submitResponse($event)">{{ $t('Submit')}}</button>
                 </div>
             </div>
         </div>
@@ -129,12 +129,14 @@ export default {
                 axios.post(`/forms/${this.form}`, formData).then((response) => {
                     this.$swal.fire({
                         title: "Great!",
-                        text: "Form created successfully! redirecting you shortly",
+                        text: this.$t("Success"),
                         icon: "success"
                     }).then((result) => {
                         if(result.isConfirmed)
                             window.location = '/forms/thanks';
                     });
+                }).catch((error) => {
+                    this.$swal.fire(this.$t('Oops!'), error.response.data.message, 'error')
                 })
             }
         },
