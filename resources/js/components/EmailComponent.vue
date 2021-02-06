@@ -1,13 +1,13 @@
 <template>
 <div>
-    <label for="form-answer-link">Simply copy the link</label>
+    <label for="form-answer-link">{{ $t("Simply copy the link")}}</label>
     <div class="input-group mb-3">
         <input type="text" class="form-control" name="form_link" id="form-answer-link" :value="link">
         <div class="input-group-append">
             <button class="btn btn-outline-secondary" type="button" id="button-addon2" @click="copyText"><i class="fa fa-clone"></i></button>
         </div>
     </div>
-    <label for="email-list">Or add list of emails separated by a comma</label><span v-if="emailList != ''" :class="{'badge': true, 'badge-success': validEmailList, 'badge-danger': !validEmailList}">{{ validEmailList ? "Good" : "bad"}}</span>
+    <label for="email-list">{{ $t("Or add list of emails separated by a comma")}}</label><span v-if="emailList != ''" :class="{'badge': true, 'badge-success': validEmailList, 'badge-danger': !validEmailList}">{{ validEmailList ? $t("Good Format") : $t("Bad format")}}</span>
     <textarea v-model="emailList" id="email-list"
               cols="30" rows="10"
               class="form-control"></textarea>
@@ -26,7 +26,7 @@
 <script>
 export default {
     name: "EmailComponent.vue",
-    props: ["link"],
+    props: ["link","title"],
     data(){
         return {
             isLoading: false,
@@ -60,9 +60,10 @@ export default {
             var fd = new FormData();
             fd.append('emails', this.emailList);
             fd.append('link', this.link);
+            fd.append('title', this.title);
 
             axios.post('/send_invitations', fd).then((response) => {
-                this.$swal.fire('Great!', 'emails have been sent successfully', 'success');
+                this.$swal.fire(this.$t('Great!'), this.$t('emails have been sent successfully'), 'success');
                 this.isLoading = false;
             }).catch((error) => {
                 this.$swal.fire('Oops!', error.response.data.message, 'error');

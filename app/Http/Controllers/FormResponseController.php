@@ -44,7 +44,7 @@ class FormResponseController extends Controller
     public function store(StoreResponse $request, Form $form)
     {
         $formResponse = $form->formResponses()->create([
-            'user_id' => Auth::user()->id
+            'user_id' => Auth::id()
         ]);
 
         foreach($request->input('responses') as $response)

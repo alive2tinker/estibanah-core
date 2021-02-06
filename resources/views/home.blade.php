@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="d-flex justify-content-between border-bottom">
-        <h1>My Forms</h1>
+        <h1>{{ __('My Forms') }}</h1>
         <a href="{{ route('forms.create') }}" class="btn btn-link">+</a>
     </div>
     <div class="list-group">
@@ -13,7 +13,7 @@
                     <a href="{{ route('forms.show', $form->id) }}"><h5 class="mb-1">{{ $form->title }}</h5></a>
                     <small class="text-muted">{{ $form->created_at->diffForHumans() }}</small>
                 </div>
-                <p class="mb-1">{{ \Illuminate\Support\Str::limit($form->description, 100, '...') }}</p>
+                <p class="mb-1">{{ \Illuminate\Support\Str::limit($form->description ? $form->description : __("No Description"), 100, '...') }}</p>
                 <a href="{{ route('forms.edit', $form->id) }}" class="btn btn-secondary">Edit</a>
                 <button type="button" class="btn btn-danger form-delete-button" data-id="{{ $form->id }}">Delete</button>
                 <form action="{{ route('forms.destroy', $form->id) }}" id="form-{{$form->id}}" method="post">

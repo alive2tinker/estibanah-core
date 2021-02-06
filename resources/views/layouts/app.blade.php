@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->getLocale() === 'ar' ? "rtl" : "ltr" }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -33,18 +33,30 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-                        @if(Auth::check())
-                            <form class="form-inline" method="GET" action="{{ route('search') }}">
-                                <input class="form-control mr-sm-2" name="key" type="search" placeholder="Search" aria-label="Search">
-                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                            </form>
+                    <ul class="navbar-nav {{ app()->getLocale() === 'ar' ? "mr-auto" : "ml-auto" }}">
 
-                        @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
+                    <ul class="navbar-nav {{ app()->getLocale() === 'ar' ? "mr-auto" : "ml-auto" }}">
+                        @if(Auth::check())
+                            <form class="form-inline" method="GET" action="{{ route('search') }}">
+                                <input class="form-control mr-sm-2" name="key" type="search" placeholder="{{ __('Search') }}" aria-label="Search">
+                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">{{ __('Search') }}</button>
+                            </form>
+
+                        @endif
+                        <li class="nav-item dropdown"><a href="#" id="languageDropdown" class="nav-link dropdown-toggle"
+                                                         role="button" data-toggle="dropdown" aria-haspopup="true"
+                                                         aria-expanded="false" v-pre>{{ __(LaravelLocalization::getCurrentLocaleName()) }}<span class="caret"></span></a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="languageDropdown">
+                                    @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                                            <a class="dropdown-item" rel="alternate" hreflang="{{ $localeCode }}" href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
+                                                {{ $properties['native'] }}
+                                            </a>
+                                    @endforeach
+                            </div>
+                        </li>
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
@@ -62,8 +74,8 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a href="{{route('home')}}" class="dropdown-item">home</a>
-                                    <a href="{{route('settings')}}" class="dropdown-item">settings</a>
+                                    <a href="{{route('home')}}" class="dropdown-item">{{ __('Home') }}</a>
+                                    <a href="{{route('settings')}}" class="dropdown-item">{{__('Settings')}}</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
